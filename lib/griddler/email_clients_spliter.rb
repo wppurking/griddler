@@ -11,6 +11,7 @@ module Griddler::EmailClientsSpliter
     def gmail(doc)
       doc.at_css('body > .gmail_extra')&.remove
       doc.at_css('body > div > .gmail_extra')&.remove
+      doc.at_css('body > blockquote[type=cite]')&.remove
       doc.at_css('body').inner_html
     end
 
