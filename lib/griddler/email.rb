@@ -19,21 +19,22 @@ module Griddler
                 :raw_headers,
                 :attachments,
                 :vendor_specific,
-                :spam_report
+                :spam_report,
+                :charsets
 
     def initialize(params)
       @params = params
 
-      @to      = recipients(:to)
-      @from    = extract_address(params[:from])
+      @to = recipients(:to)
+      @from = extract_address(params[:from])
       @subject = extract_subject
 
       @headers = extract_headers
 
-      @cc                 = recipients(:cc)
-      @bcc                = recipients(:bcc)
+      @cc = recipients(:cc)
+      @bcc = recipients(:bcc)
       @original_recipient = extract_address(params[:original_recipient])
-      @reply_to           = extract_address(params[:reply_to])
+      @reply_to = extract_address(params[:reply_to])
 
       @raw_headers = params[:headers]
 
@@ -44,32 +45,35 @@ module Griddler
                   else
                     @raw_text.presence || @raw_html
                   end
-      @body     = extract_body
+      @body = extract_body
 
       @attachments = params[:attachments]
 
       @vendor_specific = params.fetch(:vendor_specific, {})
 
       @spam_report = params[:spam_report]
+
+      @charsets = params[:charsets]
     end
 
     def to_h
       @to_h ||= {
-        to:              to,
-        from:            from,
-        cc:              cc,
-        bcc:             bcc,
-        subject:         subject,
-        body:            body,
-        raw_body:        raw_body,
-        raw_text:        raw_text,
-        raw_html:        raw_html,
-        headers:         headers,
-        raw_headers:     raw_headers,
-        attachments:     attachments,
+        to: to,
+        from: from,
+        cc: cc,
+        bcc: bcc,
+        subject: subject,
+        body: body,
+        raw_body: raw_body,
+        raw_text: raw_text,
+        raw_html: raw_html,
+        headers: headers,
+        raw_headers: raw_headers,
+        attachments: attachments,
         vendor_specific: vendor_specific,
-        spam_score:      spam_score,
-        spam_report:     spam_report,
+        spam_score: spam_score,
+        spam_report: spam_report,
+        charsets: charsets
       }
     end
 
