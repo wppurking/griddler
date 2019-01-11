@@ -5,6 +5,7 @@ describe Griddler::EmailParser do
   let(:outlook_mac) { File.open('spec/fixtures/outlook_mac.html').read }
   let(:gmail) { File.open('spec/fixtures/gmail.html').read }
   let(:gmail_bq) { File.open('spec/fixtures/gmail2.html').read }
+  let(:gmail_bq2) { File.open('spec/fixtures/gmail3.html').read }
   let(:apple_mail) { File.open('spec/fixtures/apple_mail.html').read }
   let(:iphone) { File.open('spec/fixtures/iphone.html').read }
 
@@ -42,6 +43,13 @@ describe Griddler::EmailParser do
     h   = subject.extract_reply_html(gmail_bq, :gmail)
     doc = Nokogiri::HTML.parse(h)
     expect(doc.css('blockquote[type=cite]').size).to eq 0
+  end
+
+  it 'gmail div.gmail_quote' do
+    allow(subject).to receive(:email_client).and_return(:gmail)
+    h   = subject.extract_reply_html(gmail_bq2, :gmail)
+    doc = Nokogiri::HTML.parse(h)
+    expect(doc.css('div.gmail_quote').size).to eq 0
   end
 
   it 'apple_mail reply part' do
